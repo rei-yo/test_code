@@ -1,0 +1,16 @@
+@mixin word_animation(
+    $name,
+    $iter: 1,
+    $timing: ease,
+    $fill-mode: forwards,
+    $duration: 1s
+
+){
+    animation: {
+        name: $name;
+        iteration-count: $iter;
+        timing-function: $timing;
+        fill-mode: $fill-mode;
+        duration: $duration;
+    }
+}

@@ -1,0 +1,57 @@
+@use 'mixin' as mi;
+
+html {
+    font-family: 'Arial';
+    font-size: 50px;
+}
+
+body{margin:0;}
+
+section {
+    position : relative;
+    height: 100vh;
+    background-color: red;
+
+    &:nth-child(2) {
+        background-color: blue;
+    }
+
+    &:nth-child(3) {
+        background-color: green;
+    }
+}
+
+
+.animation {
+    position:absolute;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+
+    &.active {
+
+        & .char {
+            display: inline-block;
+            @include mi.word_animation($name: char_appear);
+            color: rgb(238, 255, 0);
+            @for $i from 1 through 30 {
+                &:nth-child(#{$i}) {
+                    animation-delay: calc($i * 0.04s);
+                }
+            }
+        };   
+    };
+};
+
+@keyframes char_appear {
+    0%{
+        opacity:0;
+        transform: translateX(-70%) translateY(-100%);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+}
