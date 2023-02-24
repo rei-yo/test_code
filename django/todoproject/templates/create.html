@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action = '' method = 'POST'>
+{% csrf_token %}
+{{ form.as_p }} 
+
+<input type = 'submit' value = 'create'>
+</form>
+
+{% endblock content %}
+
+{% comment %} formがCreateViewと関連。as_pでpタグで囲う {% endcomment %}

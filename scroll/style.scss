@@ -11,6 +11,8 @@ section {
     position : relative;
     height: 100vh;
     background-color: red;
+    letter-spacing: 0;
+    font-size: 0;
 
     &:nth-child(2) {
         background-color: blue;
@@ -25,14 +27,20 @@ section {
 .animation {
     position:absolute;
     color: white;
+    font-size: 50px;
+    letter-spacing: normal;
     top: 50%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
+    z-index: 2;
+
 
     &.active {
 
         & .char {
             display: inline-block;
+            width: 25px;
+            text-align: center;
             @include mi.word_animation($name: char_appear);
             color: rgb(238, 255, 0);
             @for $i from 1 through 30 {
@@ -44,14 +52,14 @@ section {
     };
 };
 
-@keyframes char_appear {
-    0%{
-        opacity:0;
-        transform: translateX(-70%) translateY(-100%);
-    }
-    100%{
-        opacity: 1;
-        transform: translateX(-50%) translateY(-50%);
-    }
+// @keyframes char_appear {
+//     0%{
+//         opacity:0;
+//         transform: translateX(-70%) translateY(-100%);
+//     }
+//     100%{
+//         opacity: 1;
+//         transform: translateX(-50%) translateY(-50%);
+//     }
     
-}
+// }
