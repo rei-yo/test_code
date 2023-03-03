@@ -12,7 +12,8 @@
 
     <div class = 'container'>
         <a class="btn btn-secondary mb-2" href="{% url 'create' %}" role="button">新規作成</a>
-        
+        <a class="btn btn-secondary mb-2 position-relative top-0 end-30" href="{% url 'logout' %}" role="button">ログアウト
+        </a>
         {%for item in object_list %}
 
             <div class="alert alert-{{item.priority}}" role="alert">
