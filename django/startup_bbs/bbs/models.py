@@ -15,4 +15,12 @@ class Topic(models.Model):
     def __str__(self):
         return self.comment
 
+
+class Album(models.Model):
+
+    photo       = models.ImageField(verbose_name="フォト",upload_to="bbs/album/photo/", null=True,blank=True)
+
+class Document(models.Model):
+
+    file        = models.FileField(verbose_name="ファイル",upload_to="bbs/document/file/", null=True,blank=True)
 # Create your models here.
