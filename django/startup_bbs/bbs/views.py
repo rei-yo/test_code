@@ -14,7 +14,7 @@ class IndexView(View):
 
     def get(self, request, *args, **kwargs):
         context = {}
-        query = Q() #クエリの初期化
+        query = Q() #クエリの初期化→検索していないときも対応させるため
         
         if 'search' in request.GET:
             words = request.GET['search'].replace('　',' ').split(' ')
@@ -22,21 +22,23 @@ class IndexView(View):
             for word in words:
                 if word == '': #スペースが2つ以上入っていた場合の対応
                     continue
-                query &= Q(comment__contains=word)
+                query &= Q(Q(comment__contains=word) | Q(category__name__contains=word))
 
-            context = Topic.objects.filter(query).order_by('id')
-            paginator = Paginator(context, 3)
+        topics = Topic.objects.filter(query).order_by('id')
+        paginator = Paginator(topics, 3)
             
-            if "page" in request.GET:
-                context = paginator.get_page(request.GET["page"])
-            else:
-                context = paginator.get_page(1)
-            
+        if "page" in request.GET:
+            context['topics'] = paginator.get_page(request.GET["page"])
         else:
-            context = {}
-            context['topics'] = Topic.objects.all()
-            context['categories'] = Category.objects.all()
-            paginator = Paginator(context, 3)
+            context['topics'] = paginator.get_page(1)
+        
+        context['categories'] = Category.objects.all()
+            
+        # else:
+        #     context = {}
+        #     context['topics'] = Topic.objects.all()
+        #     context['categories'] = Category.objects.all()
+        #     paginator = Paginator(context, 3)
 
         return render(request,"bbs/index.html",context)
 
@@ -45,7 +47,7 @@ class IndexView(View):
         # posted  = Topic( comment = request.POST["comment"] )
         # posted.save()
 
-        form = TopicForm(request.POST)
+        form = TopicForm(request.POST, request.FILES)
         if form.is_valid():
             print('OK')
             form.save()
@@ -63,6 +65,7 @@ class IndexView(View):
 
 index   = IndexView.as_view()
 
+
 class SingleView(View):
 
     def get(self, request, pk, *args, **kwargs):
@@ -76,6 +79,9 @@ class SingleView(View):
 single  = SingleView.as_view()
 
 
+
+#ここでpdfのみ許可するように定義をしている。
+#MIMEタイプで検索するとOK。
 ALLOWED_MIME    = [ "application/pdf" ]
 
 class AlbumView(View):
@@ -123,9 +129,12 @@ class DocumentView(View):
             print(form.errors)
             return redirect("bbs:document")
 
-        #???
+        #全てのファイルを受け付けてしまうので、ここで制約
+        # magicでMIMEタイプはファイル形式（PDF、jpegとか）を取り出している。
+        #.read(1024)でファイルのヘッダー？を読みに行っている？ので偽装しにくいと言われている。
         mime_type   = magic.from_buffer(request.FILES["file"].read(1024) , mime=True)
-        
+    
+        #アーリーリターン。条件に一致していればここでreturnで終了。    
         if not mime_type in ALLOWED_MIME:
             print("このファイルのMIMEは許可されていません。")
             print(mime_type)

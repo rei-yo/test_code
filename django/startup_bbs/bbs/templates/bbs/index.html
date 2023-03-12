@@ -25,11 +25,11 @@
 
         <form action='', method='GET'>
             <div class='input-group'>
-            <input class = 'form-control' type='text' name='search'>
-            <div class='input-group-apend'>
+                <input class = 'form-control' type='text' name='search'>
+                <div class='input-group-apend'>
                 <input class='btn btn-outline-primary' type='submit', value='検索'>
+                </div>
             </div>
-        </div>
         </form>
 
         
@@ -42,25 +42,20 @@
                 {% endfor %}
             </select>
             <textarea class="form-control" name="comment"></textarea>
-            <input type="submit" value="送信">
-        </form>
-
-        <p><a href="{% url 'bbs:document' %}">ファイルのアップロードはこちら</a></p>
-
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
             <input type="file" name="photo">
-            <input class="form-control" type="submit" value="送信">
+            <input type="submit" value="送信">
         </form>
 
         {% for topic in topics %}
         <div class="topic">
             <div>分類：{{ topic.category.name }}</div>
             <div>{{ topic.comment }}</div>
-            <div>{{ topic.pk }}</div>
-            <a class="btn btn-success" ,href="{% url 'bbs:single' topic.pk %}" ,role="button">個別表示</a>
+            {% if topic.photo %}
+            <img class="img-fluid" src="{{ topic.photo.url }}" alt="投稿された画像">
+            {% endif %}
+            <a class="btn btn-success" href="{% url 'bbs:single' topic.pk %}" role="button">個別表示</a>
         </div>
-        {% url_replace request field vale %}
+        {% comment %} {% url_replace request field vale %} {% endcomment %}
         {% endfor %}
 
         <ul class="pagination justify-content-center">

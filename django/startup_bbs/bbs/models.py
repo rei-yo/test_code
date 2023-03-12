@@ -8,9 +8,19 @@ class Category(models.Model):
         return self.name
 
 
+class User(models.Model):
+    
+    name = models.CharField(verbose_name = 'ユーザー名', max_length = 20)
+    
+    def __str__(self):
+        return self.user_name
+
 class Topic(models.Model):
     category    = models.ForeignKey(Category,verbose_name="カテゴリ",on_delete=models.CASCADE, default = '未分類')
+    # user_name    = models.ForeignKey(User , verbose_name = 'ユーザー名', on_delete=models.SET_DEFAULT, default = '未登録ユーザー')
     comment     = models.CharField(verbose_name="コメント",max_length=50)
+    #DBに格納されるのは文字列型。
+    photo       = models.ImageField(verbose_name="フォト",upload_to="bbs/topic/photo/", null=True,blank=True)
 
     def __str__(self):
         return self.comment
