@@ -5,7 +5,7 @@ class TopicForm(forms.ModelForm):
 
     class Meta:
         model   = Topic
-        fields  = [ "comment" , 'category', 'photo', 'user_name']
+        fields  = [ "comment" , 'category', 'photo']
 
 
 class AlbumForm(forms.ModelForm):
