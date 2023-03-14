@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from .models import Topic, Category
+from .models import Topic, Category, User
 from .forms import TopicForm
 from django.db.models import Q
 from django.contrib import messages
@@ -33,7 +33,7 @@ class IndexView(View):
             context['topics'] = paginator.get_page(1)
         
         context['categories'] = Category.objects.all()
-            
+        context['user_name'] = User.objects.all()   
         # else:
         #     context = {}
         #     context['topics'] = Topic.objects.all()
@@ -48,6 +48,8 @@ class IndexView(View):
         # posted.save()
 
         form = TopicForm(request.POST, request.FILES)
+        # user = request.POST["user_check"]
+  
         if form.is_valid():
             print('OK')
             form.save()

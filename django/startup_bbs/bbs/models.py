@@ -10,14 +10,14 @@ class Category(models.Model):
 
 class User(models.Model):
     
-    name = models.CharField(verbose_name = 'ユーザー名', max_length = 20)
+    name = models.CharField(verbose_name = 'user_class', max_length = 20)
     
     def __str__(self):
-        return self.user_name
+        return self.name
 
 class Topic(models.Model):
     category    = models.ForeignKey(Category,verbose_name="カテゴリ",on_delete=models.CASCADE, default = '未分類')
-    # user_name    = models.ForeignKey(User , verbose_name = 'ユーザー名', on_delete=models.SET_DEFAULT, default = '未登録ユーザー')
+    user_name    = models.ManyToManyField(User , verbose_name = 'ユーザー名')
     comment     = models.CharField(verbose_name="コメント",max_length=50)
     #DBに格納されるのは文字列型。
     photo       = models.ImageField(verbose_name="フォト",upload_to="bbs/topic/photo/", null=True,blank=True)

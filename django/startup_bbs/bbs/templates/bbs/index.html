@@ -31,8 +31,6 @@
                 </div>
             </div>
         </form>
-
-        
         
         <form method="POST">
             {% csrf_token %}
@@ -41,6 +39,9 @@
                 <option value="{{ category.id }}">{{ category.name }}</option>
                 {% endfor %}
             </select>
+            {% for user in user_name %}
+            <label><input type="checkbox" name="user_check" value="{{ user.id }}">{{user.name}}</label>
+            {% endfor %}
             <textarea class="form-control" name="comment"></textarea>
             <input type="file" name="photo">
             <input type="submit" value="送信">
@@ -49,6 +50,11 @@
         {% for topic in topics %}
         <div class="topic">
             <div>分類：{{ topic.category.name }}</div>
+
+            {% for user_name in topic.user_name.all %}
+                {{ user_name }}
+            {% endfor %}
+
             <div>{{ topic.comment }}</div>
             {% if topic.photo %}
             <img class="img-fluid" src="{{ topic.photo.url }}" alt="投稿された画像">
