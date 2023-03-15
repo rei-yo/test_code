@@ -37,9 +37,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    
     'bbs.apps.BbsConfig',
     'bbs.templatetags.param_change',
+    'userauth.apps.UserauthConfig',
 ]
+
+AUTH_USER_MODEL = 'userauth.CustomUser'
+#カスタムユーザーモデルを使用したフォームに対応させる
+ACCOUNT_FORMS   = { "signup":"userauth.forms.SignupForm" }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,6 +81,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
+
 
 
 # Database

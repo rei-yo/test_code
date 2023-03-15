@@ -52,10 +52,7 @@ class IndexView(View):
   
         if form.is_valid():
             print('OK')
-            topic_model = Topic(category = request.POST['category'],
-                                user_name = request.POST['user_check'],
-                                comment = request.POST['comment'])
-            topic_model.save()
+            form.save()
             messages.add_message(request, messages.INFO, '投稿完了')
             messages.add_message(request, messages.INFO, '投稿完了')
         else:

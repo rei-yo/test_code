@@ -16,8 +16,8 @@ class User(models.Model):
         return self.name
 
 class Topic(models.Model):
-    category    = models.ForeignKey(Category,verbose_name="カテゴリ",on_delete=models.CASCADE, default = '未分類')
-    user_name    = models.ManyToManyField(User , verbose_name = 'ユーザー名')
+    category    = models.ForeignKey(Category,verbose_name="カテゴリ",on_delete=models.CASCADE, default = 1)
+    user_name    = models.ManyToManyField(User , verbose_name = 'ユーザー名', blank = True)
     comment     = models.CharField(verbose_name="コメント",max_length=50)
     #DBに格納されるのは文字列型。
     photo       = models.ImageField(verbose_name="フォト",upload_to="bbs/topic/photo/", null=True,blank=True)
