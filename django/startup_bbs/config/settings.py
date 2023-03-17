@@ -31,17 +31,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.admin', #管理画面を提供するフレームワーク
+    'django.contrib.auth', #ユーザー認証・認可システムのアプリケーション
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
+    'django.contrib.sites', #異なるアプリケーション間をまとめて管理
+    'allauth',#認証やアカウント管理機能
+    'allauth.account',#アカウントの作成、認証、プロファイル編集、パスワード変更などの機能
+    'allauth.socialaccount',# 'allauth' パッケージを使用する場合に、ソーシャルログイン機能を提供
     
     'bbs.apps.BbsConfig',
     'bbs.templatetags.param_change',
@@ -51,6 +51,10 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'userauth.CustomUser'
 #カスタムユーザーモデルを使用したフォームに対応させる
 ACCOUNT_FORMS   = { "signup":"userauth.forms.SignupForm" }
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
