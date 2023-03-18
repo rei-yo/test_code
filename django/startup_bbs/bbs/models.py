@@ -28,9 +28,9 @@ class Topic(models.Model):
 
 class Album(models.Model):
 
-    photo       = models.ImageField(verbose_name="フォト",upload_to="bbs/album/photo/", null=True,blank=True)
+    photo = models.ImageField(verbose_name="フォト",upload_to="bbs/album/photo/", null=True,blank=True)
 
 class Document(models.Model):
 
-    file        = models.FileField(verbose_name="ファイル",upload_to="bbs/document/file/", null=True,blank=True)
+    file    = models.FileField(verbose_name="ファイル",upload_to="bbs/document/file/", null=True,blank=True)
 # Create your models here.

@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 
 from .models import Album,Document
 from .forms import AlbumForm,DocumentForm
-
+import magic
 
 class IndexView(View):
 
@@ -34,6 +34,8 @@ class IndexView(View):
         
         context['categories'] = Category.objects.all()
         context['user_name'] = User.objects.all()   
+        
+        print("context", topics[0])
         # else:
         #     context = {}
         #     context['topics'] = Topic.objects.all()
@@ -49,11 +51,11 @@ class IndexView(View):
 
         form = TopicForm(request.POST, request.FILES)
         # user = request.POST["user_check"]
-  
+        print('file',request.FILES)
+        print('comment', request.POST)    
         if form.is_valid():
             print('OK')
             form.save()
-            messages.add_message(request, messages.INFO, '投稿完了')
             messages.add_message(request, messages.INFO, '投稿完了')
         else:
             print('NG')
