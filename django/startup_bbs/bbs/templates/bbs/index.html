@@ -50,11 +50,11 @@
         {% for topic in topics %}
         <div class="topic">
             <div>分類：{{ topic.category.name }}</div>
-
+            <div>投稿者：{{ topic.user }}
             <span>対象</span>            
             {% if topic.user_name %}
                 {% for user_name in topic.user_name.all  %}
-                    <span>{{ topic.user_name }}</span>
+                    <span>{{ user_name.user }}</span>
                 {% endfor %}
             {% endif %}
 

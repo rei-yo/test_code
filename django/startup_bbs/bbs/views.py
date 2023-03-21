@@ -35,7 +35,7 @@ class IndexView(View):
         context['categories'] = Category.objects.all()
         context['user_name'] = User.objects.all()   
         
-        print("context", topics[0])
+        # print("context", topics[0])
         # else:
         #     context = {}
         #     context['topics'] = Topic.objects.all()
@@ -49,10 +49,15 @@ class IndexView(View):
         # posted  = Topic( comment = request.POST["comment"] )
         # posted.save()
 
-        form = TopicForm(request.POST, request.FILES)
+        #requestは書き換え不可なのでコピーをとる
+        request_copy = request.POST.copy()
+        #ユーザーのid情報をいれてやる
+        request_copy["user"] = request.user.id
+
+        form = TopicForm(request_copy, request.FILES)
         # user = request.POST["user_check"]
-        print('file',request.FILES)
-        print('comment', request.POST)    
+        # print('file',request.FILES)
+        # print('comment', request.POST)    
         if form.is_valid():
             print('OK')
             form.save()

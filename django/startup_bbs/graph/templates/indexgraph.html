@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>簡易掲示板</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+    <script src="{% static 'graph/js/ajax.js' %}"></script>
+
+</head>
+<body>
+
+    <div class="container">
+
+      <canvas id="myChart"></canvas>
+      {% comment %} <div id="content_area">{% include "graph/graph.html" %}</div> {% endcomment %}
+      <div class='button'>
+        <button id="update-btn" class="btn btn-primary">更新(api)</button>
+      </div>
+
+      <form id="ajax-form" action = '' method="POST">
+        {% csrf_token %}
+        <input type="number" name = "value">
+        <input type="submit"  value="送信(ajax)">
+      </form>
+
+    </div>
+    
+      <script src="{% static 'graph/js/main.js' %}"></script>
+      
+
+</body>
+</html>

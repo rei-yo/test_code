@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'bbs.apps.BbsConfig',
     'bbs.templatetags.param_change',
     'userauth.apps.UserauthConfig',
+    'graph.apps.GraphConfig',
+    'rest_framework',
 ]
 
 AUTH_USER_MODEL = 'userauth.CustomUser'
