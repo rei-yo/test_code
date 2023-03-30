@@ -1,7 +1,14 @@
 
+myChart = null;
+
 function displayChart(val, class_name) {
   const ctx = document.getElementById(class_name).getContext('2d');
-  const myChart = new Chart(ctx, {
+
+  if (myChart){
+    console.log('destroy');
+    myChart.destroy();
+  }
+  myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       // idをラベルにする
@@ -29,10 +36,11 @@ function displayChart(val, class_name) {
 };
 
 
-// ページが完全に読み込まれた後に実行
-window.onload = function() {
+// ページが完全に読み込まれた後に実行,, window onloadは後続にwindow.onloadを書くと上書きされてしまう。
+// window.onload = function() {
   // httpリクエストをサーバーに送るための関数, get_numbersはdjangoでエンドポイントを設定
-  fetch('api/get_values/')
+ function get_values() {
+    fetch('api/get_values/')
     // promiseオブジェクトからjsonを取り出す
     .then(response => {
       if (!response.ok){
@@ -50,10 +58,10 @@ window.onload = function() {
     });
 };
 
-
+window.addEventListener("load", get_values());
 
   // 更新(api)ボタンがクリックされたときの処理
-  document.getElementById('update-btn').onclick = function() {
+document.getElementById('update-btn').onclick = function() {
       // 新しい数字を生成して、DBに保存する
       fetch('api/update_values/', {
       method: 'POST',
@@ -70,19 +78,21 @@ window.onload = function() {
 
 // ajaxでの更新部分
 
-  window.addEventListener("load" , function (){
+window.addEventListener("load" , function (){
     // submitイベントを検知。
-    $("#ajax-form").on("submit", function(){ submit(); });
+    $("#ajax-button").on("click", function(){ submit(); });
 });
 
 function submit(){
   // サーバーに送信するリクエストの設定
+
   $.ajax({
-    'url': '{% url "" %}',
+    // javascript内でDTLを書いてもダメ。urlをしっかり書く or html内仁鶴
+    'url': '/graph/',
     'type': 'POST',
     'data': {
       // 左のvalueは
-        'value': $('value').val()
+        'value': $('#ajax-value').val()
     },
     'dataType': 'json'
   })
@@ -95,6 +105,45 @@ function submit(){
   .fail(function(response){
     console.log(response);
   })
+}
 
+
+let chart_data = {
+  e : 5,
+  b : 8,
+  a : 9,
+  d : 6,
+  c : 7,
 
 }
+
+let sorted_data = Object.entries(chart_data)
+                .sort((a, b) => b[1] - a[1]);
+
+let label_name = [];
+let chart_sorted_data = [];
+
+for(let data of sorted_data){
+label_name.push(data[0]);
+chart_sorted_data.push(data[1]);
+}
+
+
+function CircleGraph (label_name, chart_sorted_data) {
+let context = document.querySelector("#circle_graph").getContext('2d');
+
+my_circle_Chart = new Chart(context, {
+  type: 'pie',
+  data: {
+    labels: label_name,
+    datasets: [{
+      data: chart_sorted_data
+    }]
+  },
+  options: {
+    responsive: false,
+  }
+});
+}
+
+window.addEventListener("load" , CircleGraph(label_name, chart_sorted_data))

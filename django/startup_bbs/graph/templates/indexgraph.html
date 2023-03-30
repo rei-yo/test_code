@@ -25,12 +25,12 @@
 
       <form id="ajax-form" action = '' method="POST">
         {% csrf_token %}
-        <input type="number" name = "value">
-        <input type="submit"  value="送信(ajax)">
-      </form>
+        <input id="ajax-value" type="number" name = "value">
+        <input id="ajax-button" type="button"  value="送信(ajax)">
 
     </div>
-    
+    <canvas id="circle_graph" width="300" height="300"></canvas>
+
       <script src="{% static 'graph/js/main.js' %}"></script>
       
 
