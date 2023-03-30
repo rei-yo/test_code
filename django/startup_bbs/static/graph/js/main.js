@@ -104,6 +104,9 @@ function submit(){
   // 通信失敗時の処理
   .fail(function(response){
     console.log(response);
+  }).always( function(){;
+
+  setTimeout(submit, 5000);
   })
 }
 
