@@ -29,5 +29,14 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
             )
     
     USERNAME_FIELD = 'username' #??
+    
+    email           = models.EmailField(_('email address'), blank=True)
+    is_staff        = models.BooleanField(
+                        _('staff status'),
+                        default=False,
+                        help_text=_('Designates whether the user can log into this admin site.'),
+                    )
+    objects         = UserManager()
+    REQUIRED_FIELDS = ['email']
 
 # Create your models here.

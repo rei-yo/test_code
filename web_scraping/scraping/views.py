@@ -1,63 +1,60 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-from .models import CompanyInfo, Likes
+from .models import CompanyInfo, GoodCompany
+
+from .forms import GoodCompanyForm
+from django.utils import timezone
 # from users.models import CustomUser
+import datetime 
 
 class IndexView(View):
 
     def get(self, request, *args, **kwargs):
         context = {}
         context["company_info"] = CompanyInfo.objects.all()
-        context["likes"] = Likes.objects.all()
         
         return render(request, 'scraping/index.html', context)
 
 index = IndexView.as_view()
 
+class GoodView(View):
+    
+    def post(self, request, pk, *args, **kwargs):
         
-# from django.shortcuts import render,redirect
-# from django.views import View
-# from .models import Topic, Category, User
-# from .forms import TopicForm
-# from django.db.models import Q
-# from django.contrib import messages
-# from django.core.paginator import Paginator 
-
-# from .models import Album,Document
-# from .forms import AlbumForm,DocumentForm
-# import magic
-
-# class IndexView(View):
-
-#     def get(self, request, *args, **kwargs):
-#         context = {}
-#         query = Q() #クエリの初期化→検索していないときも対応させるため
+        copied_req = request.POST.copy()
+        print('request', copied_req)
         
-#         if 'search' in request.GET:
-#             words = request.GET['search'].replace('　',' ').split(' ')
+        copied_req["user"] = request.user
+        print('user', request.user)
+        copied_req["company_info"] = pk
+        print(pk)
+        
+        ip_list = request.META.get('HTTP_X_FORWARDED_FOR')
+        
+        if ip_list:
+            ip = ip_list.split(',')[0]
             
-#             for word in words:
-#                 if word == '': #スペースが2つ以上入っていた場合の対応
-#                     continue
-#                 query &= Q(Q(comment__contains=word) | Q(category__name__contains=word))
-
-#         topics = Topic.objects.filter(query).order_by('id')
-#         paginator = Paginator(topics, 3)
+        else:
+            ip = request.META.get('REMOTE_ADDR')
             
-#         if "page" in request.GET:
-#             context['topics'] = paginator.get_page(request.GET["page"])
-#         else:
-#             context['topics'] = paginator.get_page(1)
+        copied_req['ip'] = ip
         
-#         context['categories'] = Category.objects.all()
-#         context['user_name'] = User.objects.all()   
+        form = GoodCompanyForm(copied_req)
         
-#         # print("context", topics[0])
-#         # else:
-#         #     context = {}
-#         #     context['topics'] = Topic.objects.all()
-#         #     context['categories'] = Category.objects.all()
-#         #     paginator = Paginator(context, 3)
+        if not form.is_valid():
+            return redirect('scraping:index')
+        
+        last_week = timezone.now() - datetime.timedelta(days=7)
+        
+        #gteで～以上、lastweek以上でipが一致する場合はtrueが返ってくる。
+        
+        if not GoodCompany.objects.filter(dt__gte = last_week, ip = ip, pk = pk).exists():
+            form.save()
+            
+        return redirect("scraping:index")
+    
+good = GoodView.as_view()
+        
+        
 
-#         return render(request,"bbs/index.html",context)
-# # Create your views here.
+        

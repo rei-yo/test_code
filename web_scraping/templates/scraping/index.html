@@ -11,14 +11,40 @@
 </head>
 <body>
 
-    <main class="container">
+    <div class="container">
 
         {% for company in company_info %}
         <div class="border">
             {{ company.name }}
             {{company.people_num}}
+            <div>良いね数: {{ company.good.all|length }}</div>
 
+            <form action="{% url 'scraping:good' company.id %}" method =  "post">
+                {% csrf_token %}
+                <button id = 'like_button'>いいね</button>
+            </form>
+            {% comment %} <form action="{% url 'scraping:good' company.id %}" method="post">
+                {% csrf_token %}
+                {# TODO: company.good.all の中に 自分のipアドレスがあるかチェックする、もしあれば良いね済みと表示 #}
+                {# 引数として company.good.allとipを与えるカスタムテンプレートタグ #}
+                {% comment %} {% good_check company ip %} {% endcomment %}
+                {% comment %} <button>良いね</button> {% endcomment %}
+
+                {% comment %} <div class='button'>
+                    <button id="update-btn" class="btn btn-primary">更新(api)</button>
+                </div>
+              
+                    <form id="ajax-form" action = '' method="POST">
+                      {% csrf_token %}
+                      <input id="ajax-value" type="number" name = "value">
+                      <input id="ajax-button" type="button"  value="送信(ajax)">
+              
+                  </div>
+                  <canvas id="circle_graph" width="300" height="300"></canvas>
+               {% endcomment %}
+
+        </div>
         {% endfor %}
-    </main>
+    </div>
 </body>
 </html>

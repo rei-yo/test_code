@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import warnings
 warnings.simplefilter('ignore')
 
-from scraping.models import CompayInfo
+from scraping.models import CompanyInfo
 
 def get_company_data():
     options = Options()
@@ -63,7 +63,7 @@ class Command(BaseCommand):
         print("カスタムコマンドを実行")
         
         for data in df.itertuples(name = None):
-            company_data = CompayInfo(name = data[1], people_num = data[2])
+            company_data = CompanyInfo(name = data[1], people_num = data[2])
             try:
                 company_data.save()
             except:
