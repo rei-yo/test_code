@@ -56,6 +56,7 @@
     <h1 v-else> Oh no T_T</h1>
 
     <!-- 属性バインディング。v-bind:id='xxx'が正式 -->
+
     <ul>
         <li v-for = "todo in todos" :key = "todo.id">
             {{ todo.text }}
