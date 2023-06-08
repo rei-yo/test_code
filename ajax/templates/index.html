@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='{{ url_for('static', filename='user_maintenance.js') }}'></script>
+    <script src='{{ url_for('static', filename='common.js') }}'></script>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="header">
+        <div id="title" class="title">複数拠点消費電力見える化app管理画面</div>
+        <div class="user_container">
+        <label id="user_label" class="user_label">&nbsp;</label>
+        </div>
+    </div>
+    <div class="container">
+        <div class="contents">
+        <div class="contents_header">User Master Maintenance</div>
+        <hr/>
+        <div class="search_container">
+            <table class="search_table">
+            <tr>
+                <td class="td_label">id</td>
+                <td><input id="mieruka_user_id" class="input_text" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">group_id</td>
+                <td><input id="group_id" class="input_text" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">NAME</td>
+                <td><input id="user_name" class="input_text" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">EMAIL</td>
+                <td><input id="email" class="input_text" type="text"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">CREATE_DATETIME</td>
+                <td><input id="create_datetime_from" class="input_date" type="date"/> - <input id="create_datetime_to" class="input_date" type="date"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">UPDATE_DATETIME</td>
+                <td><input id="update_datetime_from" class="input_date" type="date"/> - <input id="update_datetime_to" class="input_date" type="date"/></td>
+            </tr>
+            <tr>
+                <td class="td_label">DELETE_FLG</td>
+                <td>
+                <input name="delete_flg" type="radio" value="1"/>True
+                <input name="delete_flg" type="radio" value="0"/>False
+                <input name="delete_flg" type="radio" value="" checked/>両方
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                <button id="search_button" class="mm_button">検索</button>
+                <button id="reset_button" class="mm_button">リセット</button>
+                &nbsp;&nbsp;&nbsp;
+                <button id="register_button" class="mm_button">新規登録</button>
+                </td>
+            </tr>
+            </table>
+        </div>
+    
+        <div id="message" class="message"></div>
+    
+        <div class="search_result_container">
+            <table id="search_result_table" class="search_result_table">
+            <thead id="search_result_table_head"></thead>
+            <tbody id="search_result_table_body"></tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        Microsoft Edge または Google Chrome でご利用ください。<br/>
+    </div>
+    
+    <dialog id="register_dialog" class="mm_dialog">
+        <div class="dialog_header">
+        レコードの登録
+        </div>
+        <br/>
+        <table class="dialog_table">
+        <tr>
+            <td class="td_label">NAME</td>
+            <td><input id="register_name" class="input_text" type="text"/></td>
+        </tr>
+        <tr>
+            <td class="td_label">EMAIL</td>
+            <td><input id="register_email" class="input_text" type="text"/></td>
+        </tr>
+        </table>
+        <br/>
+        <center>
+        <button id="register_ok" class="mm_button">登録</button>
+        <button id="register_cancel" class="mm_button">キャンセル</button>
+        </center>
+    </dialog>
+    
+    <dialog id="edit_dialog" class="mm_dialog">
+        <div class="dialog_header">
+        レコードの編集
+        </div>
+        <br/>
+        <table class="dialog_table">
+        <tr>
+            <td class="td_label">ID</td>
+            <td><div id="edit_id"></div></td>
+        </tr>
+        <tr>
+            <td class="td_label">NAME</td>
+            <td><input id="edit_name" class="input_text" type="text"/></td>
+        </tr>
+        <tr>
+            <td class="td_label">EMAIL</td>
+            <td><input id="edit_email" class="input_text" type="text"/></td>
+        </tr>
+        <tr>
+            <td class="td_label">DELETE_FLG</td>
+            <td><input id="edit_delete_flg" type="checkbox"/></td>
+        </tr>
+        </table>
+        <br/>
+        <center>
+        <button id="edit_ok" class="mm_button">更新</button>
+        <button id="edit_delete" class="mm_button">削除</button>
+        <button id="edit_cancel" class="mm_button">キャンセル</button>
+        </center>
+    </dialog>
+    
+    <dialog id="delete_confirm_dialog" class="mm_dialog">
+        <div class="dialog_header_red">
+        レコードの削除
+        </div>
+        <br/>
+        このレコードを物理削除します。<br/>
+        本当によろしいですか？<br/>
+        <br/>
+        <center>
+        <button id="delete_confirm_ok" class="mm_button">削除</button>
+        <button id="delete_confirm_cancel" class="mm_button">キャンセル</button>
+        </center>
+    </dialog>
+    
+</body>
+</html>
