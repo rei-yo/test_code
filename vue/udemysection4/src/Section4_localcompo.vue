@@ -1,8 +1,13 @@
 <script setup>
+    import { ref } from "vue"
     import Section4_51_props from './components/Section4_51.vue'
     import ArrayTest from './components/Section4_array.vue'
     import EmitTest from './components/emit_test.vue'
     import CustomInput_58 from './components/Section4_58_Form.vue'
+    import CustomInput_59 from './components/Section4_59_Form.vue'
+    import SlotCompo_62 from './components/Section4_62_slot.vue'
+    import SlotCompo_63 from './components/Section4_63_namedslot.vue'
+    import SlotCompo_64 from './components/Section4_64_scopedslot.vue'
 
     const parentTitle = '親側のタイトル'
 
@@ -23,6 +28,8 @@
     }
 
     const parentValue = ref('');
+    const parentValue1 = ref('');
+    const parentValue2 = ref('');
 
 </script>
 
@@ -54,6 +61,43 @@
         <div>●emitで子から親にデータを渡す</div>
         <EmitTest @customEvent = "parentMethod" @customEvent2 = "parentMethod2"/>
         <div>  {{ countNum }}  </div>
+    </div>
+
+    <div class="lesson">
+        <div>●コンポーネント間のフォーム $eventで子からのデータを受け取れる。</div>
+        <CustomInput_58 :value="parentValue" @input="parentValue = $event.target.value"/>
+        {{ parentValue }}
+        <div>●親がv-modelを使用</div>
+        <CustomInput_58 class="child" v-model:value="parentValue1"/> 
+        {{ parentValue1 }}
+    </div>
+
+    <div class="lesson">
+        <div>●コンポーネント間のフォーム_子がv-modelを使用</div>
+        <CustomInput_59 :value="parentValue2" @input="parentValue2 = $event.target.value"/>
+        {{ parentValue2 }} 
+    </div>
+
+    <div class="lesson">
+        <div>●slot 親から子へデータの差し込み</div>
+        <SlotCompo_62>parent</SlotCompo_62>
+    </div>
+
+    <div class="lesson">
+        <div>●slot 名前付き</div>
+        <SlotCompo_63>
+            <template v-slot:header>親ヘッダー</template>
+            <template #footer>親フッター</template>
+        </SlotCompo_63>
+    </div>
+
+    <div class="lesson">
+        <div>●slot scoped</div>
+        <SlotCompo_64>
+            <template v-slot:default="player">
+                {{ player.member }}
+            </template>
+        </SlotCompo_64>
     </div>
 
 
