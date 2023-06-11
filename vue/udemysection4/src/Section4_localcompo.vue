@@ -68,7 +68,7 @@
         <CustomInput_58 :value="parentValue" @input="parentValue = $event.target.value"/>
         {{ parentValue }}
         <div>●親がv-modelを使用</div>
-        <CustomInput_58 class="child" v-model:value="parentValue1"/> 
+        <CustomInput_58  v-model:value="parentValue1"/> 
         {{ parentValue1 }}
     </div>
 

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'visualization/css/style.css' %}">
+    <title>インフラ系データの見える化</title>
+</head>
+<body>
+    <div class="container">
+        <div class="upper_container">
+            <div class="price_stacked_bar_container">
+                <canvas id="price_stacked_bar_chart"></canvas>
+            </div>
+            <div class="co2_stacked_bar_container">
+                <canvas id="co2_stacked_bar_chart"></canvas>
+            </div>
+        </div>
+        <div class="under_container">
+            <div class="con_line_chart_container">
+                <canvas id="consumption_line_chart"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'visualization/js/ajax.js' %}"></script>
+    <script src="{% static 'visualization/js/main.js' %}"></script>
+</body>
+</html>
