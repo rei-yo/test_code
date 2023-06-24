@@ -9,6 +9,7 @@ const STORAGE_KEY = 'books'
 const books = ref([])
 
 // getItemでデータを確認し、データがあればbookに定義し、無ければデータがおかしいので削除する。
+
 onMounted(() => {
   if (localStorage.getItem(STORAGE_KEY)){
     try{
@@ -48,7 +49,7 @@ function goToEditPage(id){
 function updateBookInfo(e){
   const updateInfo = {
     id: e.id,
-    readDate: e.readData,
+    readDate: e.readDate,
     memo: e.memo,
     title: books.value[e.id].title,
     image: books.value[e.id].image,
@@ -67,6 +68,7 @@ function updateBookInfo(e){
   <v-app>
     <Header />
     <v-main>
+      <!-- v-container??? -->
       <RouterView
       :books = "books"
       @add-book-list = "addBook"

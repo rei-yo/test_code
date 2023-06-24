@@ -4,13 +4,15 @@
 
 <template>
     <div class = "header">
-        test header
+        header
     </div>
 </template>
 
 <style scoped>
 
     .header{
+        width:100vw;
+        min-height: 64px;
         background-color: green;
     };
 

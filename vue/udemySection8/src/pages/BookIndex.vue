@@ -34,7 +34,7 @@ const books = ref(props.books)
                         読んだ日：{{ book.readDate }}
                         感想：{{ book.memo }}
                         <v-spacer></v-spacer>
-                        <v-btn :to="{ name:'BookEdit', params:{id: book.id} }"
+                        <v-btn :to="{ name:'bookedit', params:{id: book.id} }"
                         color = "indigo" fab small dark>
                         <b-icon>mdi-pencil</b-icon>
                         </v-btn>

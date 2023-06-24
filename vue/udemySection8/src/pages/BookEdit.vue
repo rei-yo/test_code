@@ -79,5 +79,5 @@ console.log("bookedit", props.books[route.params.id])
         </v-row>
     </div>
     <div>edit</div>
-    <div>{{ books }}</div>
+    <div>{{ books }}{{ date }}</div>
 </template>

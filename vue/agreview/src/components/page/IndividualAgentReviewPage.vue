@@ -3,17 +3,32 @@ import HeaderVue from '@/components/globals/Header.vue'
 import ReviewContentsMain from './IndividualAgentReviewPage/ReviewContentsMain.vue'
 import AgDetailContents from './IndividualAgentReviewPage/AgDetailContents.vue'
 
+
+const agSummary = "agent summary"
+const agLogo = "agent logo"
+const agDetail = {"agSummary":agSummary, "agLogo": agLogo}
+
+const graphData = "graph data"
+const AgEvaluationTable = "agent evaluation table"
+const AgEvaluation = {"graphData": graphData,
+                      "AgEvaluationTable": AgEvaluationTable}
+
+
+
+
 </script>
 
 <template>
     <header>
         <HeaderVue/>
     </header>
-    <div class = "AgDetailContents">
-        <AgDetailContents/>
-    </div>
-    <div class = "ReviewContentsMain">
-        <ReviewContentsMain/>
+    <div class="contents">
+        <div class = "AgDetailContents">
+            <AgDetailContents :agDetail="agDetail"/>
+        </div>
+        <div class = "ReviewContentsMain">
+            <ReviewContentsMain :AgEvaluation="AgEvaluation"/>
+        </div>
     </div>
 </template>
 
@@ -25,11 +40,11 @@ header {
       max-height: 200 px;
       text-align: center;
     }
-
 .AgDetailContents{
     margin: auto;
     width: 80vw;
     text-align: center;
+    
 }
 .ReviewContentsMain{
     margin:auto;
