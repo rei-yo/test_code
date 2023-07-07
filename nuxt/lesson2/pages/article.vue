@@ -10,7 +10,7 @@
 </template>
 
 <!-- script setupだと起動しない -->
-<script setup>
+<script>
 
 async function asyncData({ $axios }) {
     const posts = await $axios.$get(
