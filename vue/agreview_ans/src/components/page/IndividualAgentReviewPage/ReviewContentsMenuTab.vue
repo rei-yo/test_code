@@ -1,11 +1,9 @@
 <script setup>
-
-const emit = defineEmits(["select-tab"])
+const emit = defineEmits(['select-tab'])
 
 function selectTab(index){
-    emit("select-tab", index)
+    emit('select-tab', index)
 }
-
 
 </script>
 
@@ -13,7 +11,7 @@ function selectTab(index){
     <div class = "navMenu">
         <nav>
             <ul>
-                <li @click="selectTab(1)"><a href="#">総合評価</a></li>
+                <li @click="selectTab(1)"><a href="#" >総合評価</a></li>
                 <li><a href="#" @click="selectTab(2)">利用者口コミ</a></li>
                 <li><a href="#" @click="selectTab(3)">口コミ投稿</a></li>
             </ul>

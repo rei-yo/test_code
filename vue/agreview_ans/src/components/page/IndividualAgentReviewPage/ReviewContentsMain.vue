@@ -6,29 +6,33 @@
 
     const props = defineProps(["AgEvaluation"])
 
+
     const router = useRouter()
-    function selectTabMenu(e){
-        console.log("review", e)
-        switch(e){
+    function selectTabMenu(e) {
+        console.log('Review',e)
+        switch (e){
             case 1:
-                router.push("/")
+                router.push('/')
                 break
             case 2:
-                router.push("./route2")
+                router.push('/route2')
                 break
             case 3:
-                router.push("./route3")
+                router.push('/route3')
                 break
-            default:
-                router.push("/")
+            defalut:
+                router.push('/')
         }
     }
 
 </script>
 
 <template>
+
+    <RouterView />
+    
     <div class = ReviewContentsMain>
-        <ReviewContentsMenuTab @select-tab = "selectTabMenu"/>
+        <ReviewContentsMenuTab @select-tab="selectTabMenu"/>
         <div class = "AgDetailContents">
             <div class="detail">
                 <ReviewContentsLeft :AgEvaluation="props.AgEvaluation"/>
