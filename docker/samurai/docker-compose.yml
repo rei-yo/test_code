@@ -1,0 +1,38 @@
+version: '3'
+
+# 2つのサービスを定義「DB」「web」
+services:
+
+  django:
+    build: ./django
+    volume: 
+     - ./django/django_pj:/app/django
+    command: python manage.py runserver
+    ports: 8000:8000
+    depends_on:
+    - db
+
+  db:
+    image: mysql:8.0
+    # mysqlの8.0から認証形式が変わっていてそれに対応
+    command: --default-authentication-plugin=mysql_native_password
+    
+    # 左はローカルのディレクトリ、右はコンテナのディレクトリに同期
+    # ローカルのdbの内容をコンテナに引き継げるので楽。
+    volumes:
+      - .???
+
+    # 環境変数でパスワードを設定（mysqlだとパスワードが必須)
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  
+  vue_pj:
+  
+    build: ./vue
+    volumes:
+      - ./vue/vue_pj/nuxtapi/src:/app
+    command: python manage.py runserver
+    
+    # 左はローカル、右はコンテナ
+    ports:
+      - "3000:3000"

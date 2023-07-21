@@ -1,0 +1,42 @@
+version: '3'
+
+# 2つのサービスを定義「DB」「web」
+services:
+
+  # db側の設定
+  db:
+    image: mysql:8.0
+    # mysqlの8.0から認証形式が変わっていてそれに対応
+    command: --default-authentication-plugin=mysql_native_password
+    
+    # 左はローカルのディレクトリ、右はコンテナのディレクトリに同期
+    # ローカルのdbの内容をコンテナに引き継げるので楽。
+    volumes:
+      - ./src/db/mysql_data:/var/lib/mysql
+
+    # 環境変数でパスワードを設定（mysqlだとパスワードが必須)
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+  web:
+    # 今のディレクトリで実行するという意味
+    build: .
+    # コマンドを実行する。railsのサーバーを起動。ポート3000、
+    # ipアドレスのバインドは0000でどこでもOKという意味
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+
+    # ローカルファイルを更新したら自動で更新されるように。
+    #左はローカルフォルダ、右はコンテナ内のフォルダ
+    volumes:
+      - ./src:/app
+    
+    # 左はローカル、右はコンテナ
+    ports:
+      - "3000:3000"
+    # environment:
+    #   RAILS_ENV: development
+
+    #依存関係。webサービスはdbサービスに依存していますという事になる。
+    #通常、DBにアクセスするとなると接続先情報としてmysql側のIPアドレスを直接指定する必要がある。
+    #ここで記載するとそれが不要で接続可能。
+    depends_on:
+      - db

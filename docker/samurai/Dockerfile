@@ -1,0 +1,27 @@
+FROM python:3.9
+
+From ubuntu:20.04
+USER root
+
+RUN apt update
+RUN apt install -y python3.9
+RUN apt install -y python3-pip
+COPY requirements.txt .
+RUN python3.9 -m pip install -r requirements.txt
+
+RUN mkdir app
+
+COPY ./django_pj /app
+#作業ディレクトリ
+WORKDIR /app 
+
+FROM node:18
+COPY ./vue_pj/packege*.json  ./app
+RUN npm install
+
+COPY ./vue_pj ./app
+RUN npm run build
+
+
+CMD ["python3", "manage.py", "runserver"]
+CMD ["npm", "run", "serve"]
