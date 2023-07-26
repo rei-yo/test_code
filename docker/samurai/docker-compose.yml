@@ -1,30 +1,43 @@
 version: '3'
 
+# サービス同士の通信はコンテナ名とport番号を指定する。
+# port番号は受信する側は空ける必要がある。
+
 # 2つのサービスを定義「DB」「web」
 services:
 
   django:
     build: ./django
-    volume: 
+    volumes: 
      - ./django/django_pj:/app/django
     command: python manage.py runserver
-    ports: 8000:8000
+    ports: 
+     - 8000:8000
+
+    # 依存する。dbサービスがある前提でdjangoがbuildされる。（dbからbuild)
+    # コンテナを起動するときの順番。
+    # linkというのもあり、これは紐づける。サービス名でdjangoからdbのコンテナを参照できる。
     depends_on:
     - db
 
   db:
     image: mysql:8.0
-    # mysqlの8.0から認証形式が変わっていてそれに対応
+    # mysqlの8.0から認証形式が変わっていてそれに対応,認証方法をパスワードにするという設定
+    # 8以降は認証方式が変更。
     command: --default-authentication-plugin=mysql_native_password
     
     # 左はローカルのディレクトリ、右はコンテナのディレクトリに同期
     # ローカルのdbの内容をコンテナに引き継げるので楽。
+    # コンテナの中のデータを永続化する。
     volumes:
-      - .???
+      - ./sql :/var/lib/mysql
 
-    # 環境変数でパスワードを設定（mysqlだとパスワードが必須)
+    # 環境変数でパスワードを設定（mysqlだとパスワードが必須)環境変数にパスワード？
     environment:
       MYSQL_ROOT_PASSWORD: password
+
+    ports: 
+     - 3306:3306
   
   vue_pj:
   

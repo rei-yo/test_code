@@ -1,5 +1,3 @@
-FROM python:3.9
-
 From ubuntu:20.04
 USER root
 
@@ -15,13 +13,15 @@ COPY ./django_pj /app
 #作業ディレクトリ
 WORKDIR /app 
 
-FROM node:18
-COPY ./vue_pj/packege*.json  ./app
-RUN npm install
-
-COPY ./vue_pj ./app
-RUN npm run build
-
-
 CMD ["python3", "manage.py", "runserver"]
-CMD ["npm", "run", "serve"]
+
+# 以下チュートリアルより
+# FROM python:3
+
+# 以下は何を環境変数に設定している？
+# ENV PYTHONUNBUFFERED 1　  
+# RUN mkdir /code
+# WORKDIR /code
+# ADD requirements.txt /code/
+# RUN pip install -r requirements.txt
+# ADD . /code/
