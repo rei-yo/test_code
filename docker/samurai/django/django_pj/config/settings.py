@@ -88,6 +88,8 @@ DATABASES = {
         'NAME': 'test_db', 
         'USER': 'root', 
         'PASSWORD': 'password', 
+        'HOST': "db",
+        'POST' : 3306
     }
 }
 

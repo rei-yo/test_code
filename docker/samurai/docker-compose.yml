@@ -9,7 +9,7 @@ services:
   django:
     build: ./django
     volumes: 
-     - ./django/django_pj:/app/django
+     - ./django/django_pj:/app
     command: python manage.py runserver
     ports: 
      - 8000:8000
@@ -19,22 +19,26 @@ services:
     # linkというのもあり、これは紐づける。サービス名でdjangoからdbのコンテナを参照できる。
     depends_on:
     - db
+    # links:
+    #   - db
 
   db:
     image: mysql:8.0
     # mysqlの8.0から認証形式が変わっていてそれに対応,認証方法をパスワードにするという設定
     # 8以降は認証方式が変更。
     command: --default-authentication-plugin=mysql_native_password
-    
+            & sudo touch /tmp/mysql.sock
     # 左はローカルのディレクトリ、右はコンテナのディレクトリに同期
     # ローカルのdbの内容をコンテナに引き継げるので楽。
     # コンテナの中のデータを永続化する。
     volumes:
-      - ./sql :/var/lib/mysql
+      - ./sql:/var/lib/mysql
 
     # 環境変数でパスワードを設定（mysqlだとパスワードが必須)環境変数にパスワード？
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_db
+      TZ: 'Asia/Tokyo'
 
     ports: 
      - 3306:3306
@@ -43,8 +47,8 @@ services:
   
     build: ./vue
     volumes:
-      - ./vue/vue_pj/nuxtapi/src:/app
-    command: python manage.py runserver
+      - ./vue/vue_pj:/app
+    command: python manage.py runserver@
     
     # 左はローカル、右はコンテナ
     ports:

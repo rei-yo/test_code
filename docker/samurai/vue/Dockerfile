@@ -1,5 +1,8 @@
 FROM node:18
-COPY ./vue_pj/packege*.json  ./app
+
+RUN mkdir app
+COPY ./vue_pj ./app
+WORKDIR /app/vue_pj
 RUN npm install -g npm
 
 EXPOSE 3000
