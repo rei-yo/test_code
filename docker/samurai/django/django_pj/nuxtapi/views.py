@@ -36,3 +36,11 @@ class GetUserData(APIView):
         return JsonResponse(data)
 
 get_user_view =  GetUserData.as_view()
+
+class IndexView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request,"nuxtapi/index.html")
+
+index   = IndexView.as_view()

@@ -10,7 +10,7 @@ services:
     build: ./django
     volumes: 
      - ./django/django_pj:/app
-    command: python manage.py runserver
+    command: python manage.py runserver 8000
     ports: 
      - 8000:8000
 
@@ -48,7 +48,7 @@ services:
     build: ./vue
     volumes:
       - ./vue/vue_pj:/app
-    command: python manage.py runserver@
+    command: npm run dev
     
     # 左はローカル、右はコンテナ
     ports:
