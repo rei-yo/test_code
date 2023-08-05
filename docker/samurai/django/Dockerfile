@@ -1,14 +1,14 @@
 FROM python:3
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt .
+RUN mkdir app
+WORKDIR /app 
+COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
-RUN mkdir app
+COPY ./django_pj /app/
 
-COPY ./django_pj /app
 #作業ディレクトリ
-WORKDIR /app 
 
 # CMD ["python3", "manage.py", "runserver"]
 

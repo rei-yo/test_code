@@ -10,7 +10,8 @@ services:
     build: ./django
     volumes: 
      - ./django/django_pj:/app
-    command: python manage.py runserver 8000
+
+    command: python manage.py runserver  0.0.0.0:8000
     ports: 
      - 8000:8000
 
@@ -18,7 +19,8 @@ services:
     # コンテナを起動するときの順番。
     # linkというのもあり、これは紐づける。サービス名でdjangoからdbのコンテナを参照できる。
     depends_on:
-    - db
+      db:
+        condition: service_healthy
     # links:
     #   - db
 
@@ -40,6 +42,13 @@ services:
       MYSQL_DATABASE: test_db
       TZ: 'Asia/Tokyo'
 
+    healthcheck:
+      test: mysql -h db -u root -ppassword -e "show databases;"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
     ports: 
      - 3306:3306
   
@@ -53,3 +62,17 @@ services:
     # 左はローカル、右はコンテナ
     ports:
       - "3000:3000"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./server/default.conf:/etc/nginx/conf.d/default.conf
+      - ./server/src:/usr/share/nginx/html
+      # - ./server/nginx.conf:/etc/nginx/nginx.conf
+      # - ./server/conf.d:/etc/nginx/conf.d
+      # - ./server/log:/var/log/nginx
+    tty: true
