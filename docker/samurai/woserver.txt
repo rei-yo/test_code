@@ -1,0 +1,76 @@
+version: '3'
+
+# サービス同士の通信はコンテナ名とport番号を指定する。
+# port番号は受信する側は空ける必要がある。
+
+# 2つのサービスを定義「DB」「web」
+services:
+
+  django:
+    build: ./django
+    volumes: 
+     - ./django/django_pj:/app
+
+    command: python manage.py runserver  0.0.0.0:8000
+    ports: 
+     - 8000:8000
+
+    # 依存する。dbサービスがある前提でdjangoがbuildされる。（dbからbuild)
+    # コンテナを起動するときの順番。
+    # linkというのもあり、これは紐づける。サービス名でdjangoからdbのコンテナを参照できる。
+    depends_on:
+      db:
+        condition: service_healthy
+    # links:
+    #   - db
+
+  db:
+    image: mysql:8.0
+    # mysqlの8.0から認証形式が変わっていてそれに対応,認証方法をパスワードにするという設定
+    # 8以降は認証方式が変更。
+    command: --default-authentication-plugin=mysql_native_password
+            & sudo touch /tmp/mysql.sock
+    # 左はローカルのディレクトリ、右はコンテナのディレクトリに同期
+    # ローカルのdbの内容をコンテナに引き継げるので楽。
+    # コンテナの中のデータを永続化する。
+    volumes:
+      - ./sql:/var/lib/mysql
+
+    # 環境変数でパスワードを設定（mysqlだとパスワードが必須)環境変数にパスワード？
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_db
+      TZ: 'Asia/Tokyo'
+
+    healthcheck:
+      test: mysql -h db -u root -ppassword -e "show databases;"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+    ports: 
+     - 3306:3306
+  
+  vue_pj:
+  
+    build: ./vue
+    volumes:
+      - ./vue/vue_pj:/app
+    command: npm run dev
+    
+    # 左はローカル、右はコンテナ
+    ports:
+      - "3000:3000"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 5001:5000
+    volumes:
+      - ./server/nginx.conf:/etc/nginx/nginx.conf
+      - ./server/conf.d:/etc/nginx/conf.d
+      - ./server/log:/var/log/nginx
+    tty: true
