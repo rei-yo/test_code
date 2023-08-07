@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY ./django_pj /app/
 
+CMD ["/startup.sh"]
+
 #作業ディレクトリ
 
 # CMD ["python3", "manage.py", "runserver"]

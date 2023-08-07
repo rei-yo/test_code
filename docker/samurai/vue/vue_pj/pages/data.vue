@@ -1,7 +1,8 @@
 <script setup>
   const { data : users} = await useFetch(
     // 'https://jsonplaceholder.typicode.com/posts/'
-    'http://127.0.0.1:8000/get_user'
+    // 'http://127.0.0.1:8080/get_user'
+    "http://localhost:8080/get_user"
   );
 
   console.log(users)

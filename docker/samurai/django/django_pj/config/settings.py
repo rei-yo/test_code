@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g05mue(6b#x+4^7vb0q4uh4k276k@z5b1e=vokhdp%u(wigid1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nuxtapi.apps.NuxtapiConfig',
-    'rest_framework'
+    'rest_framework',
+    "accounts.apps.AccountsConfig"
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'accounts.CustomUser'
